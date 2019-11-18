@@ -239,3 +239,13 @@ tokens <- copom %>%
 tokens_count <- tokens %>%
   count(word, sort=TRUE)
 ```
+
+```{r}
+#Carregar arquivo de stopwords
+stopwords_pt<- read_delim("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\usable_files\\stopwords.csv",";",escape_double=FALSE,trim_ws=TRUE)
+
+#Retirar as stopwords do texto
+tokens_count <- tokens %>%
+  count(word, sort=TRUE) %>%
+  anti_join(stopwords_pt)
+```
