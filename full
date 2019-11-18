@@ -1,0 +1,37 @@
+library(pdftools)
+
+#Copom 2014 (180 - 187)
+copom1 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2014\\copom180.pdf")
+copom2 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2014\\copom181.pdf")
+copom3 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2014\\copom182.pdf")
+copom4 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2014\\copom183.pdf")
+copom5 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2014\\copom184.pdf")
+copom6 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2014\\copom185.pdf")
+copom7 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2014\\copom186.pdf")
+copom8 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2014\\copom187.pdf")
+
+
+
+#Copom 2018
+copom1 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2018\\copom212.pdf")
+copom2 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2018\\copom213.pdf")
+copom3 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2018\\copom214.pdf")
+copom4 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2018\\copom215.pdf")
+copom5 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2018\\copom216.pdf")
+copom6 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2018\\copom217.pdf")
+copom7 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2018\\copom218.pdf")
+copom8 <- pdf_text("C:\\Users\\Arnon\\Desktop\\Artigos\\rfiles\\2018\\copom219.pdf")
+
+#String split / Concatenar / Excluir
+copom1 <- unlist(strsplit(copom1, "[.]"))
+copom2 <- unlist(strsplit(copom2, "[.]"))
+copom3 <- unlist(strsplit(copom3, "[.]"))
+copom4 <- unlist(strsplit(copom4, "[.]"))
+copom5 <- unlist(strsplit(copom5, "[.]"))
+copom6 <- unlist(strsplit(copom6, "[.]"))
+copom7 <- unlist(strsplit(copom7, "[.]"))
+copom8 <- unlist(strsplit(copom8, "[.]"))
+
+copom14<- c(copom1, copom2, copom3, copom4, copom5, copom6, copom7, copom8)
+
+rm(copom1, copom2, copom3, copom4, copom5, copom6, copom7, copom8)
