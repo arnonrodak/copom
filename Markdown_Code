@@ -229,3 +229,13 @@ copom$frase <- copom$frase %>%
   stripWhitespace () %>%
   removeNumbers () 
 ```
+```{r}
+#Transformar em tokens
+tokens <- copom %>%
+  mutate(linenumber = row_number()) %>%
+  unnest_tokens(word, frase)
+
+#Contar quanto cada token se repete no texto
+tokens_count <- tokens %>%
+  count(word, sort=TRUE)
+```
