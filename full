@@ -72,3 +72,10 @@ copom8 <- unlist(strsplit(copom8, "[.]"))
 copom14<- c(copom1, copom2, copom3, copom4, copom5, copom6, copom7, copom8)
 
 rm(copom1, copom2, copom3, copom4, copom5, copom6, copom7, copom8)
+
+#Concatenar e excluir definitivo
+copom <- c(copom14, copom15, copom16, copom17, copom18, copom19)
+
+rm(copom14, copom15, copom16, copom17, copom18, copom19)
+
+View(copom)
