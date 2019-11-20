@@ -359,6 +359,15 @@ stopwords_pt <- add_row(stopwords_pt, word="dias")
 stopwords_pt <- add_row(stopwords_pt, word="trimestres")
 stopwords_pt <- add_row(stopwords_pt, word="taxa")
 stopwords_pt <- add_row(stopwords_pt, word="relação")
+stopwords_pt <- add_row(stopwords_pt, word="economia")
+stopwords_pt <- add_row(stopwords_pt, word="economias")
+stopwords_pt <- add_row(stopwords_pt, word="brasileira")
+stopwords_pt <- add_row(stopwords_pt, word="básico")
+stopwords_pt <- add_row(stopwords_pt, word="emergente")
+stopwords_pt <- add_row(stopwords_pt, word="emergentes")
+stopwords_pt <- add_row(stopwords_pt, word="ª")
+
+
 
 ```
 
@@ -367,7 +376,6 @@ stopwords_pt <- add_row(stopwords_pt, word="relação")
 tokens_count <- tokens %>%
   count(word, sort=TRUE) %>%
   anti_join(stopwords_pt)
-View(tokens_count)
 ```
 
 ```{r}
@@ -386,4 +394,16 @@ tokens_count %>%
   scale_fill_brewer(palette="Greens")+
   #inverte as variáveis do gráfico
   coord_flip()
+```
+
+```{r}
+#Análise de Bigramas
+
+bigrams <- copom %>%
+  unnest_tokens(bigram, frase, token = "ngrams", n = 2) %>%
+  separate(bigram,c("word1","word2"),sep = " ") %>%
+  filter(!word1 %in% as.vector(t(stopwords_pt$word))) %>%
+  filter(!word2 %in% as.vector(t(stopwords_pt$word))) %>% 
+  unite(bigram,word1,word2,sep = " ") %>%
+  count(bigram, sort = TRUE)
 ```
