@@ -357,6 +357,8 @@ stopwords_pt <- add_row(stopwords_pt, word="meses")
 stopwords_pt <- add_row(stopwords_pt, word="anos")
 stopwords_pt <- add_row(stopwords_pt, word="dias")
 stopwords_pt <- add_row(stopwords_pt, word="trimestres")
+stopwords_pt <- add_row(stopwords_pt, word="taxa")
+stopwords_pt <- add_row(stopwords_pt, word="relação")
 
 ```
 
@@ -366,4 +368,22 @@ tokens_count <- tokens %>%
   count(word, sort=TRUE) %>%
   anti_join(stopwords_pt)
 View(tokens_count)
+```
+
+```{r}
+#Fazer um gráfico de frequência com os tokens (palavras)
+
+
+tokens_count %>%
+  #Reordena as palavras conforme n, ou seja, seu próprio índice.
+  mutate(word = reorder(word,n)) %>%
+  #Quantos resultados vc quer que apareçam
+  head(5) %>%
+  #Gráfico + geom_col() <- Gráfico de colunas
+  ggplot(aes(x=word,y=n,fill=factor(word)))+
+  geom_col()+
+  #Nome da paleta de cores
+  scale_fill_brewer(palette="Greens")+
+  #inverte as variáveis do gráfico
+  coord_flip()
 ```
