@@ -229,6 +229,7 @@ copom$frase <- copom$frase %>%
   stripWhitespace () %>%
   removeNumbers () 
 ```
+
 ```{r}
 #Transformar em tokens
 tokens <- copom %>%
@@ -366,8 +367,14 @@ stopwords_pt <- add_row(stopwords_pt, word="básico")
 stopwords_pt <- add_row(stopwords_pt, word="emergente")
 stopwords_pt <- add_row(stopwords_pt, word="emergentes")
 stopwords_pt <- add_row(stopwords_pt, word="ª")
-
-
+stopwords_pt <- add_row(stopwords_pt, word="cenário")
+stopwords_pt <- add_row(stopwords_pt, word="econômica")
+stopwords_pt <- add_row(stopwords_pt, word="econômicas")
+stopwords_pt <- add_row(stopwords_pt, word="atividade")
+stopwords_pt <- add_row(stopwords_pt, word="projeções")
+stopwords_pt <- add_row(stopwords_pt, word="evolução")
+stopwords_pt <- add_row(stopwords_pt, word="ajustes")
+stopwords_pt <- add_row(stopwords_pt, word="necessários")
 
 ```
 
@@ -406,4 +413,39 @@ bigrams <- copom %>%
   filter(!word2 %in% as.vector(t(stopwords_pt$word))) %>% 
   unite(bigram,word1,word2,sep = " ") %>%
   count(bigram, sort = TRUE)
+```
+
+```{r}
+#Fazer gráfico dos bigramas
+bigrams %>%
+  mutate(bigram = reorder(bigram,n)) %>%
+  head(5) %>%
+  ggplot(aes(bigram,n,fill=factor(bigram)))+
+  scale_fill_brewer(palette="Greens")+
+  geom_col()+
+  xlab(NULL)+
+  coord_flip()
+```
+
+```{r}
+#Separar as palavras em trigramas
+trigrams <- copom %>%
+  unnest_tokens(trigrams, frase, token = "ngrams", n = 3) %>%
+  separate(trigrams,c("word1","word2","word3"),sep = " ") %>%
+  filter(!word1 %in% as.vector(t(stopwords_pt$word))) %>%
+  filter(!word3 %in% as.vector(t(stopwords_pt$word))) %>% 
+  unite(trigrams,word1,word2,word3,sep = " ") %>%
+  count(trigrams, sort = TRUE)
+```
+
+```{r}
+#Fazer um gráfico de frequência com os trigramas
+trigrams %>%
+  mutate(trigrams = reorder(trigrams,n)) %>%
+  head(5) %>%
+  ggplot(aes(trigrams,n,fill=factor(trigrams)))+
+  scale_fill_brewer(palette="Greens")+
+  geom_col()+
+  xlab(NULL)+
+  coord_flip()
 ```
