@@ -375,6 +375,27 @@ stopwords_pt <- add_row(stopwords_pt, word="projeções")
 stopwords_pt <- add_row(stopwords_pt, word="evolução")
 stopwords_pt <- add_row(stopwords_pt, word="ajustes")
 stopwords_pt <- add_row(stopwords_pt, word="necessários")
+stopwords_pt <- add_row(stopwords_pt, word="antonio")
+stopwords_pt <- add_row(stopwords_pt, word="alexandre")
+stopwords_pt <- add_row(stopwords_pt, word="tombini")
+stopwords_pt <- add_row(stopwords_pt, word="aldo")
+stopwords_pt <- add_row(stopwords_pt, word="lopes")
+stopwords_pt <- add_row(stopwords_pt, word="altamir")
+stopwords_pt <- add_row(stopwords_pt, word="coelho")
+stopwords_pt <- add_row(stopwords_pt, word="walter")
+stopwords_pt <- add_row(stopwords_pt, word="saraiva")
+stopwords_pt <- add_row(stopwords_pt, word="maranhão")
+stopwords_pt <- add_row(stopwords_pt, word="daso")
+stopwords_pt <- add_row(stopwords_pt, word="coimbra")
+stopwords_pt <- add_row(stopwords_pt, word="ayrosa")
+stopwords_pt <- add_row(stopwords_pt, word="barreira")
+stopwords_pt <- add_row(stopwords_pt, word="moreira")
+stopwords_pt <- add_row(stopwords_pt, word="rosek")
+stopwords_pt <- add_row(stopwords_pt, word="jansson")
+stopwords_pt <- add_row(stopwords_pt, word="geografia")
+stopwords_pt <- add_row(stopwords_pt, word="brasileiro")
+stopwords_pt <- add_row(stopwords_pt, word="estatística")
+
 
 ```
 
@@ -448,4 +469,52 @@ trigrams %>%
   geom_col()+
   xlab(NULL)+
   coord_flip()
+```
+
+```{r}
+#Limpar o dado de tokens das stopwords e mandar para "tokens_limpo
+tokens_limpo <- tokens %>%
+  anti_join(stopwords_pt)
+  
+#Fazer correlação de palavras
+#(Atenção ao filtrar por "prescreve")
+  word_cors <- tokens %>%
+  group_by(word) %>%
+  filter(n()>3) %>%
+  pairwise_cor(word,linenumber,sort = TRUE)
+```
+
+```{r}
+#Carregar base do affin
+affin_pt<- read_delim("C:\\Users\\Arnon\\Desktop\\affin.csv",";",escape_double=FALSE,trim_ws=TRUE)
+```
+
+```{r}
+#Cruzar o affin com os tokens 
+affin <- tokens_limpo %>%
+  inner_join(affin_pt) %>%
+  count(index=linenumber %% 80, sentiment) %>%
+  spread(sentiment,n,fill=0) %>%
+  mutate(sentiment = positivo - negativo) #%>%
+```
+
+```{r}
+#Fazer o gráfico preliminar do Affin
+ggplot(affin, aes(index,sentiment))+
+  geom_col(show.legend = TRUE)
+
+```
+
+```{r}
+#Separar em grupos de 800 tokens para melhor perceber a linha do tempo.
+affin <- tokens %>%
+  inner_join(affin_pt) %>%
+  count(index=linenumber %/% 800, sentiment) %>%
+  spread(sentiment,n,fill=0) %>%
+  mutate(sentiment = positivo - negativo)
+
+#Faz o gráfico do affin
+ggplot(affin, aes(index,sentiment))+
+  geom_col(show.legend = TRUE)
+View(affin)
 ```
