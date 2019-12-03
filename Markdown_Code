@@ -475,13 +475,28 @@ trigrams %>%
 #Limpar o dado de tokens das stopwords e mandar para "tokens_limpo
 tokens_limpo <- tokens %>%
   anti_join(stopwords_pt)
-  
+ ```
+ 
+ ```{r}
 #Fazer correlação de palavras
-#(Atenção ao filtrar por "prescreve")
   word_cors <- tokens %>%
   group_by(word) %>%
   filter(n()>3) %>%
   pairwise_cor(word,linenumber,sort = TRUE)
+  ```
+  
+  ```{r}
+  #Gráfico de correlação com 4 palavras
+  word_cors %>%
+  filter(item1 %in% c("preços", "choque", "prescreve", "decidiu")) %>%
+  group_by(item1) %>%
+  top_n(5) %>%
+  ungroup() %>%
+  mutate(item2 = reorder(item2, correlation)) %>%
+  ggplot(aes(item2, correlation)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ item1, scales = "free") +
+  coord_flip()
 ```
 
 ```{r}
@@ -518,6 +533,7 @@ ggplot(affin, aes(index,sentiment))+
   geom_col(show.legend = TRUE)
 View(affin)
 ```
+
 ```{r}
 #Transformar os tokens numa matriz esparça
 dtm <- tokens_limpo %>%
